@@ -162,7 +162,7 @@ pub fn run(args: Args) -> Result<(), Report> {
 
       let mut csv_writer = CsvStructFileWriter::new(args.output_csv.unwrap_or_else(|| "-".to_owned()), b'\t').unwrap();
 
-      let outputs: Vec<OutputEntry> = bookkeeping
+      let mut outputs: Vec<OutputEntry> = bookkeeping
         .into_par_iter()
         .filter_map(|(seq_name, entries)| {
           let n_name_occurences = entries.len();
@@ -196,14 +196,15 @@ pub fn run(args: Args) -> Result<(), Report> {
         })
         .collect();
 
+      outputs.par_sort_by_key(|entry| {
+        (
+          -(entry.n_name_occurences as isize),
+          -(entry.n_unique_seq_hashes as isize),
+        )
+      });
+
       outputs
         .into_iter()
-        .sorted_by_key(|entry| {
-          (
-            -(entry.n_name_occurences as isize),
-            -(entry.n_unique_seq_hashes as isize),
-          )
-        })
         .try_for_each(|entry| csv_writer.write(&entry))
         .unwrap();
     });
