@@ -4,14 +4,14 @@
 
 ## What's this
 
-This is a small utility which allows you to search for entries with duplicate names in GISAIS NDJSON dump file.
+This is a small utility which allows you to search for entries with duplicate names in GISAID NDJSON dump file.
 
 ## Build & run
 
 ```bash
-# Clone Nextclade git repository
-git clone https://github.com/nextstrain/nextclade
-cd nextclade
+# Clone git repository
+git clone https://github.com/nextstrain/gisaid-dupes
+cd gisaid-dupes
 
 # Install Rustup, the Rust version manager (https://www.rust-lang.org/tools/install)
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
